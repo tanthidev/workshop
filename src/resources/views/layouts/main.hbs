@@ -4,19 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/tailwind.css">nk
+    <link rel="stylesheet" href="/css/tailwind.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Document</title>
 </head>
 <body>
     <div class="app">
-        {{> header}}
+        <div class="absolute w-1/5 right-0 top-48">
+            {{> flash}}
+        </div>
 
-        <div class="container">
+        {{> header}}
+        
+        <div>
            {{{body}}} 
         </div>
 
         {{> footer}}
 
     </div>
+
+    <script>
+    // Get the notification element
+    const notification = document.getElementById('notification');
+
+    // Show the notification
+    notification.classList.add('show');
+    // Hide the notification after 5 seconds
+    setTimeout(() => {
+		notification.classList.remove('show');
+		notification.classList.add('hide');
+		}, 3000);
+</script>
 </body>
 </html>

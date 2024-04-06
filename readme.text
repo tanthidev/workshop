@@ -1,0 +1,57 @@
+Collections:
+
+Users: Lưu thông tin của tất cả người dùng.
+
+_id: ObjectId
+username: string
+password: string (có thể được lưu dưới dạng hash)
+email: string
+phone: string
+gender: string
+dob: date
+role: string (có thể là "admin", "speaker", hoặc "participant")
+additional_fields: object (có thể lưu các trường thông tin phụ khác)
+
+Events: Lưu thông tin về các sự kiện workshop.
+
+_id: ObjectId
+title: string
+description: string
+date: date
+location: string
+organizer: ObjectId (tham chiếu tới ID của người tổ chức)
+speakers: [ObjectId] (mảng các ID của diễn giả tham gia)
+attendees: [ObjectId] (mảng các ID của người tham gia)
+revenue: number
+expenses: number
+additional_fields: object (có thể lưu các trường thông tin phụ khác)
+Chats: Lưu thông tin về các cuộc trò chuyện giữa diễn giả và người tham gia.
+
+_id: ObjectId
+event_id: ObjectId (tham chiếu tới ID của sự kiện)
+sender_id: ObjectId (ID của người gửi)
+receiver_id: ObjectId (ID của người nhận)
+message: string
+timestamp: date
+Documents: Lưu các tài liệu được đăng bởi diễn giả.
+
+_id: ObjectId
+event_id: ObjectId (tham chiếu tới ID của sự kiện)
+speaker_id: ObjectId (ID của diễn giả đăng tài liệu)
+title: string
+description: string
+file_url: string
+timestamp: date
+Registrations: Lưu thông tin về việc đăng ký tham gia của người dùng vào sự kiện.
+
+_id: ObjectId
+event_id: ObjectId (tham chiếu tới ID của sự kiện)
+user_id: ObjectId (ID của người dùng đăng ký)
+registration_date: date
+payment_status: boolean
+additional_fields: object (có thể lưu các trường thông tin phụ khác)
+Web Pages:
+Trang chính: Hiển thị danh sách các workshop, chi tiết sự kiện, thông tin doanh thu, link đến trang quản lý.
+Trang quản lý (dành cho admin): Cung cấp chức năng quản lý sự kiện, người dùng, xem doanh thu, thêm diễn giả vào sự kiện.
+Trang cá nhân (dành cho diễn giả và người tham gia): Hiển thị thông tin cá nhân, các cuộc trò chuyện, tài liệu, và các sự kiện đã đăng ký hoặc tham gia.
+Trang đăng ký (dành cho người tham gia): Cho phép người dùng đăng ký tham gia vào các sự kiện, thanh toán.

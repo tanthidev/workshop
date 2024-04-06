@@ -1,0 +1,27 @@
+h1 {
+  color: green; }
+
+  @keyframes slideIn {
+ 0% {
+ display: block;
+     transform: translateX(100%);
+ }
+ 100% {
+   transform: translateX(0%);
+ }
+}
+
+@keyframes slideOut {
+
+ 100% {
+ display: none;
+ }
+}
+
+#notification.show {
+ animation: slideIn 0.5s forwards;
+}
+
+#notification.hide {
+ animation: slideOut 0.5s forwards;
+}
