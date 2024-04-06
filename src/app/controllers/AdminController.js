@@ -3,7 +3,7 @@ const users = require('../models/user')
 class AdminController {
     //GET /news
     index(req, res) {
-        res.render("admin/home", {layout: 'admin'})
+        res.render("admin/dashboard", {layout: 'admin'})
     }
 
     async createEvent(req, res){
@@ -16,8 +16,16 @@ class AdminController {
             };
         });
         res.render("admin/createEvent",  
-            {layout: 'admin', speakers},
+            { speakers},
         )
+    }
+
+    listUsers(req, res){
+        res.render("admin/users", {layout: 'admin'})
+    }
+
+    listEvents(req, res){
+        res.render("admin/events", {layout: 'admin'})
     }
 }
 

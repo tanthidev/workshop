@@ -8,6 +8,8 @@ const {upload} = require('../middlewares/upload')
 
 router.post('/event/create', EventController.handleCreateEvent)
 router.get('/event/create', adminController.createEvent)
+router.get('/users', adminController.listUsers)
+router.get('/events', adminController.listEvents)
 router.get('/', adminController.index);
 
 module.exports = router;

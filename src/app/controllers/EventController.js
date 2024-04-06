@@ -11,7 +11,7 @@ class EventController {
             }
 
             // Lấy thông tin từ request body
-            const { title, description, dateStart, dateEnd, location, speakers, revenue, expenses } = req.body;
+            const { title, description, dateStart, dateEnd, location, speakers, expenses } = req.body;
             // Kiểm tra xem có file ảnh nền được tải lên hay không
             console.log(req.file);
             if (!req.file) {
