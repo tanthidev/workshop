@@ -12,12 +12,9 @@ const methodOverride = require('method-override');
 const flash = require('express-flash');
 
 
-
-
 const route = require('./routes');
-
  
-
+const helper = require('handlebars');
 
 
 //Connect database
@@ -25,6 +22,8 @@ db.connect()
 app.use(methodOverride('_method'));
 
 app.use(cookieParser());
+
+
 app.use(session({
     secret: 'workshop',
     resave: false,
@@ -50,6 +49,25 @@ app.use(express.json());
 
 //Template Engine
 app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
+
+
+//Helper
+helper.registerHelper('eq', function(a, b) {
+  return a === b;
+});
+
+//countObjectsInArray(arr)
+helper.registerHelper('countObjectsInArray', function(arr) {
+  return arr.length;
+});
+
+// Define a Handlebars helper function to format the date
+helper.registerHelper('formatDate', function(dateStringRaw) {
+  const date = new Date(dateStringRaw);
+  const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const dateString = date.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: 'numeric' });
+  return `${timeString} ${dateString}`;
+});
 
 //config source static
 app.use(express.static(path.join(__dirname, 'public')));

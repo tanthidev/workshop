@@ -1,0 +1,86 @@
+
+        <div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
+            <div class="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
+                <img class="w-full" alt="image of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
+            </div>
+            <div class="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
+                <div class="border-b border-gray-200 pb-6">
+                    <p class="text-sm leading-none text-gray-600 -gray-300 "></p>
+                    <h1 class="text-3xl font-semibold lg:leading-6 leading-7 text-gray-800 -white mt-2">Workshop on Web Development</h1>
+                </div>
+                <div class="py-4 border-b border-gray-200 flex items-center justify-between">
+                    <p class="text-base leading-4 text-gray-800 -gray-300">Speaker</p>
+                    <div class="flex items-center justify-center">
+                        <p class="text-lg leading-none text-gray-600">Lê Nguyễn Tấn Thi</p>
+                        <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
+                    </div>
+                </div>
+                <div class="py-4 border-b border-gray-200 flex items-center justify-between">
+                    <p class="text-base leading-4 text-gray-800 -gray-300">Ticket price</p>
+                    <div class="flex items-center justify-center">
+                        <p class="text-lg leading-none text-gray-600 -gray-300 mr-3">200.000 VNĐ</p>
+                        
+                        <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
+                        <img class="hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2" alt="next">  
+                    </div>
+                </div>
+
+                {{!-- Button buy ticket --}}
+                <div class="flex justify-center">
+                    <button type="button" class="text-white text-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg mt-5 px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+                    </svg>
+                    <span class="ml-2">Register Now</span>
+                </button>
+                </div>
+
+
+                <div>
+                    <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 -gray-300 mt-7">It is a long established fact that a reader will be distracted by thereadable content of a page when looking at its layout. The point of usingLorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
+                    <p class="text-base leading-4 mt-7 text-gray-600 -gray-300">Date start:</p>
+                    <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Date end:</p>
+                    <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Location:</p>
+                </div>
+                <div>
+                    <div class="border-t border-b py-4 mt-7 border-gray-200">
+                        <div data-menu class="flex justify-between items-center cursor-pointer">
+                            <p class="text-base leading-4 text-gray-800 -gray-300">Shipping and returns</p>
+                            <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
+                                <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
+                                <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
+                            </button>
+                        </div>
+                        <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are nonrefundable</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="border-b py-4 border-gray-200">
+                        <div data-menu class="flex justify-between items-center cursor-pointer">
+                            <p class="text-base leading-4 text-gray-800 -gray-300">Contact us</p>
+                            <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
+                                <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
+                                <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
+                            </button>
+                        </div>
+                        <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">If you have any questions on how to return your item to us, contact us.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+<script>
+    let elements = document.querySelectorAll("[data-menu]");
+for (let i = 0; i < elements.length; i++) {
+    let main = elements[i];
+    main.addEventListener("click", function () {
+        let element = main.parentElement.parentElement;
+        let andicators = main.querySelectorAll("img");
+        let child = element.querySelector("#sect");
+        child.classList.toggle("hidden");
+        andicators[0].classList.toggle("rotate-180");
+    });
+}
+
+</script>

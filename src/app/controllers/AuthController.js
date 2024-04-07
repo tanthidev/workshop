@@ -13,20 +13,24 @@ class AuthController {
         try {
             const formData = req.body
             const user = await User.findOne({ email: formData.email});
-            console.log(user);
             if (user && bcrypt.compareSync(formData.password, user.password)) {
                 const token = jwt.sign({ user }, process.env.TOKEN_SECRET_KEY);
                 res.cookie('token', token); // Sử dụng res.cookie để lưu trữ token
+
                 // Set success flash message
-                req.flash('success', 'Successfull login.');
+                req.flash('success', 'Successfull login!');
                 return res.redirect('/'); 
             } else {
-                return res.redirect('/login?error=Username+or+password+is+incorrect');
+                // Set fail flash message
+                req.flash('error', 'Email or password is incorrect!');
+                return res.redirect('/auth/login');
             }
 
 
         } catch (error) {
-            res.redirect(`/login?error=${error}`);
+            // Set fail flash message
+            req.flash('error', error);
+            res.redirect(`/auth/login`);
         }
     }
 
@@ -45,7 +49,9 @@ class AuthController {
             // Check if user already exists
             const existingUser = await User.findOne({ email });
             if (existingUser) {
-              return res.status(400).json({ message: 'User already exists' });
+              req.flash('error', 'User already exists');
+              return res.redirect('/auth/signup');
+
             }
         
             // Hash the password
@@ -65,11 +71,13 @@ class AuthController {
             await newUser.save();
         
             // Redirect to the login page after successful sign-up
+            
+            req.flash('success', 'Successul create account');
             res.redirect('/auth/login');
           } catch (error) {
             // Handle errors
-            console.error('Error creating user:', error);
-            res.status(500).json({ message: 'Internal server error' });
+            req.flash('error', 'Create account fail');
+            return res.redirect('/auth/signup');
           }
     }
 

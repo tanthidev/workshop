@@ -1,4 +1,4 @@
-// const customers = require('../models/customer')
+const Event = require('../models/event')
 const users = require('../models/user')
 class AdminController {
     //GET /news
@@ -25,7 +25,25 @@ class AdminController {
     }
 
     listEvents(req, res){
-        res.render("admin/events", {layout: 'admin'})
+        // Assuming `dateToCheck` represents the date you want to filter by
+        const dateToCheck = new Date(); // This represents the current date/time
+
+        // Constructing the query to filter documents where the dateField is greater than or equal to the specified date
+        const query = { dateStart: { $gte: dateToCheck } };
+
+         Event.find(query)
+            .populate('speakers')
+            .lean() // Use the lean() method to return plain JavaScript objects
+            .then(events => {
+                console.log(events);
+                res.render("admin/events", {layout: 'admin', 'events': events})
+            })
+            .catch(error => {
+                // Error occurred while finding documents
+                console.error(error);
+                // Handle the error appropriately
+            });
+        // res.render("admin/events", {layout: 'admin'})
     }
 }
 

@@ -7,7 +7,10 @@ class EventController {
          // Gọi middleware upload để xử lý tải lên ảnh
         upload(req, res, async function (err) {
             if (err) {
-                return res.status(400).json({ message: err.message });
+                console.log(err);
+                // Set success flash 
+                req.flash('error', 'Create fail!');
+                return res.redirect('/admin/event/create');
             }
 
             // Lấy thông tin từ request body
@@ -15,11 +18,13 @@ class EventController {
             // Kiểm tra xem có file ảnh nền được tải lên hay không
             console.log(req.file);
             if (!req.file) {
-                return res.status(400).json({ message: 'Background image is required.' });
+                // Set success flash 
+                req.flash('error', 'Background is require!');
+                return res.redirect('/admin/event/create');
             }
 
             // Lưu đường dẫn của file ảnh vào biến imagePath
-            const imagePath = '/uploads/' + req.file.filename;
+            const imagePath = '/images/' + req.file.filename;
 
             // Tạo sự kiện với đường dẫn ảnh nền
             const event = new Event({
@@ -29,7 +34,6 @@ class EventController {
                 dateEnd,
                 location,
                 speakers,
-                revenue,
                 expenses,
                 backgroundImage: imagePath // Lưu đường dẫn của ảnh nền vào trường backgroundImage của sự kiện
             });
@@ -37,12 +41,24 @@ class EventController {
             try {
                 // Lưu sự kiện vào cơ sở dữ liệu
                 await event.save();
-                return res.status(201).json({ message: 'Event created successfully.' });
+                // Set success flash 
+                req.flash('success', 'Create success!');
+                return res.redirect('/admin/event/create');
             } catch (error) {
-                return res.status(500).json({ message: 'Failed to create event.', error: error.message });
+                 // Set success flash 
+                 req.flash('error', 'Create fail!!');
+                 return res.redirect('/admin/event/create');
             }
         });
     }
+
+    // Chi tiet su kien
+
+    detail(req, res) {
+        res.render('event/detail')
+    }
+
+
 
 }
 

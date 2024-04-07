@@ -1,6 +1,7 @@
 // authMiddleware.js
 const jwt = require('jsonwebtoken');
 const { ObjectId } = require('mongodb');
+const { token } = require('morgan');
 require('dotenv').config();
 
 const checkLogin = (req, res, next) => {
@@ -43,6 +44,36 @@ const checkAdmin = (req, res, next) => {
     }
     
 }
+
+
+const isAuthenticated = (req, res, next) => {
+    if (req.cookies) {
+        const token = req.cookies.token;
+        if(token){
+             // Verify the token
+            jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, user) => {
+                if (err) {
+                    // If token is invalid, clear user data in req and proceed to next middleware
+                    req.user = null;
+                } else {
+                    // If token is valid, set user data in req and proceed to next middleware
+                    req.user = user;
+                }
+                // Call next middleware
+                next()
+            });
+        } else {
+            // If no token, clear user data in req and proceed to next middleware
+            req.user = null;
+            next();
+        }
+    } else {
+        // If no token, clear user data in req and proceed to next middleware
+        req.user = null;
+    }
+    
+    return res.redirect('/')
+};
   
 const logout = (req, res, next) => {
     // Xóa thông tin người dùng khỏi session
@@ -58,6 +89,7 @@ const logout = (req, res, next) => {
 module.exports = {
     checkLogin,
     logout,
-    checkAdmin
+    checkAdmin,
+    isAuthenticated
 };
   

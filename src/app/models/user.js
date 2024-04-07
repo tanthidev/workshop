@@ -9,6 +9,7 @@ const userSchema = new Schema({
     gender:{type: String, default:''},
     dob: {type: Date, default:''},
     role: {type: String, default:'participant'},
+    avt: {type:String, default: '/images/user_default.png'}
 });
 
 const User = mongoose.model('User', userSchema ,'users');

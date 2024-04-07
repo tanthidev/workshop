@@ -1,6 +1,6 @@
 <di  class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
   <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-    <form method='POST' action='' class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+    <form method='POST' action='/admin/event/create' class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10" enctype="multipart/form-data">
 
       <div class="absolute w-full right-0 top-0 py-8 flex justify-center items-center h-32 bg-white">
         <div class="w-full h-36 relative grid grid-cols-1 md:grid-cols-3 border border-gray-300 bg-gray-100 rounded-lg">
@@ -11,7 +11,7 @@
                 focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150" for="bgImageInput">
                   
                     Select image
-                    <input id="bgImageInput" class="text-sm cursor-pointer w-36 hidden" type="file">
+                    <input id="bgImageInput" class="text-sm cursor-pointer w-36 hidden" type="file" name="backgroundImage">
                 </label>
               
             </div>

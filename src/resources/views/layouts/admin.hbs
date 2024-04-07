@@ -13,23 +13,19 @@
 
 <body>
     <div class="flex h-screen bg-gray-800 " :class="{ 'overflow-hidden': isSideMenuOpen }">
-
+        
         <!-- Desktop sidebar -->
         <aside class="z-20 flex-shrink-0 hidden w-60 pl-2 overflow-y-auto bg-gray-800 md:block">
             <div>
                 <div class="text-white">
                     <div class="flex p-2  bg-gray-800">
                         <div class="flex py-3 px-2 items-center">
-                            <p class="text-2xl text-green-500 font-semibold">SA</p <p class="ml-2 font-semibold italic">
+                            <p class="text-2xl text-green-500 font-semibold"></p <p class="ml-2 font-semibold italic">
                             DASHBOARD</p>
                         </div>
                     </div>
                     <div class="flex justify-center">
-                        <div class="">
-                            <img class="hidden h-24 w-24 rounded-full sm:block object-cover mr-2 border-4 border-green-400"
-                                src="https://image.flaticon.com/icons/png/512/149/149071.png" alt="">
-                            <p class="font-bold text-base  text-gray-400 pt-2 text-center w-24">Safwan</p>
-                        </div>
+                        
                     </div>
                     <div>
                         <ul class="mt-6 leading-10">
@@ -117,8 +113,10 @@
         </aside>
 
 
-        {{!-- Body --}}
-        {{{body}}}
+        <div>
+            {{!-- Body --}}
+            {{{body}}}
+        </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

@@ -2,9 +2,11 @@
 class HomeController {
     //GET /news
     index(req, res) {
-        res.render("home", {
-            // user: req.user.user
-        })
+        res.render("home", 
+            {
+                user: req.user.user
+            }
+    )
     }
 
     //search
