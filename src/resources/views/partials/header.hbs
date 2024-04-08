@@ -12,35 +12,13 @@
          <div class="max-w-full px-4 w-60">
             <a href="/" class="block w-full py-5">
             <img
-               src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-primary.svg"
+               src="/images/logo.jpg"
                alt="logo"
-               class="dark:hidden"
-               />
-            <img
-               src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-white.svg"
-               alt="logo"
-               class="hidden dark:block"
                />
             </a>
          </div>
          <div class="flex items-center justify-between w-full px-4">
             <div>
-               <button
-                  @click="navbarOpen = !navbarOpen"
-                  :class="navbarOpen && 'navbarTogglerActive' "
-                  id="navbarToggler"
-                  class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
-                  >
-               <span
-                  class="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"
-                  ></span>
-               <span
-                  class="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"
-                  ></span>
-               <span
-                  class="relative my-[6px] block h-[2px] w-[30px] bg-body-color dark:bg-white"
-                  ></span>
-               </button>
                <nav
                   :class="!navbarOpen && 'hidden' "
                   id="navbarCollapse"
@@ -49,24 +27,24 @@
                   <ul class="block lg:flex">
                      <li>
                         <a
-                           href="javascript:void(0)"
-                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex dark:text-dark-6 dark:hover:text-white"
+                           href="/"
+                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex "
                            >
                         Home
                         </a>
                      </li>
                      <li>
                         <a
-                           href="javascript:void(0)"
-                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex dark:text-dark-6 dark:hover:text-white"
+                           href="/"
+                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex "
                            >
-                        Payment
+                        Workshop
                         </a>
                      </li>
                      <li>
                         <a
                            href="javascript:void(0)"
-                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex dark:text-dark-6 dark:hover:text-white"
+                           class="flex py-2 text-base font-medium text-body-color hover:text-dark lg:ml-12 lg:inline-flex "
                            >
                         Features
                         </a>

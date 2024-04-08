@@ -70,10 +70,10 @@ helper.registerHelper('formatDate', function(dateStringRaw) {
 });
 
 // Register a Handlebars helper to generate an array of numbers from 1 to n
-helper.registerHelper('range', function(n, block) {
+helper.registerHelper('range', function(start, end, options) {
   var result = '';
-  for (var i = 1; i <= n; i++) {
-    result += block.fn(i);
+  for (var i = start; i <= end; i++) {
+    result += options.fn(i);
   }
   return result;
 });

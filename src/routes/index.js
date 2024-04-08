@@ -8,7 +8,7 @@ const {checkLogin, logout, checkAdmin} = require('../middlewares/authMiddleware'
 
 function route(app) {
     app.use('/user',checkLogin, userRouter)
-    app.use('/auth',checkLogin, authRouter)
+    app.use('/auth', authRouter)
     app.use('/admin',checkLogin, checkAdmin, adminRouter)
     app.use('/event',checkLogin, eventRouter)
     app.get('/logout',checkLogin, logout);

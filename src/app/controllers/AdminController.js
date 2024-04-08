@@ -1,16 +1,63 @@
 const Event = require('../models/event')
-const users = require('../models/user')
+const User = require('../models/user')
+const formatNumber = require('../../util/formatNumber')
 class AdminController {
-    //GET /news
+    // Dashboard
     index(req, res) {
-        res.render("admin/dashboard", {
-            layout: 'admin',
-            user: req.user.user
+        Promise.all([
+            Event.countDocuments({ dateStart: { $gte: new Date() } }),
+            Event.aggregate([
+                {
+                    $group: {
+                        _id: null,
+                        totalRevenue: { $sum: "$revenue" }
+                    }
+                }
+            ]),
+            Event.aggregate([
+                {
+                    $unwind: "$attendees"
+                },
+                {
+                    $group: {
+                        _id: null,
+                        totalParticipants: { $sum: 1 }
+                    }
+                }
+            ]),
+            Event.countDocuments()
+        ])
+        .then(([totalUpComingCount, totalRevenueResult, totalParticipantsResult, totalEventCount]) => {
+            const totalUpComing = totalUpComingCount || 0;
+            const totalRevenue = totalRevenueResult.length > 0 ? totalRevenueResult[0].totalRevenue : 0;
+            const totalParticipants = totalParticipantsResult.length > 0 ? totalParticipantsResult[0].totalParticipants : 0;
+            const totalEvent = totalEventCount || 0;
+    
+            res.render("admin/dashboard", {
+                layout: 'admin',
+                user: req.user.user,
+                totalUpComing,
+                totalRevenue: formatNumber(totalRevenue),
+                totalParticipants,
+                totalEvent,
+            });
         })
+        .catch(error => {
+            console.error(error);
+            res.render("admin/dashboard", {
+                layout: 'admin',
+                user: req.user.user,
+                totalUpComing: 0,
+                totalRevenue: 0,
+                totalParticipants: 0,
+                totalEvent: 0,
+            });
+        });
     }
+    
 
     async createEvent(req, res){
-        const listSpeaker = await users.find({role: 'speaker'}).select('full_name')
+        const listSpeaker = await User.find({role: 'speaker'}).select('full_name')
         
         const speakers = listSpeaker.map(speaker => {
             return {
@@ -25,11 +72,11 @@ class AdminController {
 
     async listUsers(req, res){
         const currentPage = parseInt(req.query.page) || 1; // Current page number, default to 1
-        const limit = parseInt(req.query.limit) || 1; // Number of items per page, default to 10
+        const limit = parseInt(req.query.limit) || 7; // Number of items per page, default to 10
 
         try{ 
             // Count total number of documents
-            const totalDocuments = await users.countDocuments();
+            const totalDocuments = await User.countDocuments();
 
             // Calculate total pages
             const totalPages = Math.ceil(totalDocuments / limit);
@@ -38,18 +85,21 @@ class AdminController {
             const skip = (currentPage - 1) * limit;
 
             // Query database with pagination
-            const listUsers = await users.find()
+            User.find()
             .skip(skip)
             .limit(limit)
-            .select('-password');
-
-
-            res.render("admin/users", {
-                layout: 'admin',
-                user: req.user.user,
-                currentPage,
-                totalPages
-            })
+            .sort({ role: 1})
+            .lean()
+            .then(listUsers => {
+                res.render("admin/users", {
+                    layout: 'admin',
+                    user: req.user.user,
+                    listUsers,
+                    currentPage,
+                    totalPages,
+                })
+            });
+            
         } catch(err){   
             console.log(err)
 
@@ -76,7 +126,7 @@ class AdminController {
                 console.log(events);
                 res.render("admin/events", {
                     layout: 'admin', 
-                    'events': events,
+                    events,
                     user: req.user.user
                 })
             })

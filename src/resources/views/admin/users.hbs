@@ -1,8 +1,7 @@
-
                             <div class="">
                                 <div class="flex flex-col lg:grid-cols-1 py-5 h-screen">
                                     <div class="bg-white flex-grow p-4 shadow-lg rounded-lg">
-                                        <h1 class="font-bold text-base">Event</h1>
+                                        <h1 class="font-bold text-xl">Manager users</h1>
                                         <div class="mt-4">
                                             <div class="flex flex-col">
                                                 <div class="-my-2 overflow-x-auto">
@@ -51,74 +50,67 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class="bg-white divide-y divide-gray-200">
-                                                                    <tr>
-                                                                        {{!-- Name --}}
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>Workshop</p>
-                                                                        </td>
+                                                                    {{#each listUsers}}
+                                                                        <tr>
+                                                                            {{!-- Name --}}
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <p>{{{this.full_name}}}</p>
+                                                                            </td>
 
-                                                                        {{!-- Date --}}
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>20/5/2024</p>
-                                                                        </td>
-                                                                        {{!-- Status --}}
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex text-green-500">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-1" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                                <p>Active</p>
-                                                                            </div>
-                                                                        </td>
-                                                                    {{!-- Speaker --}}
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>Lê Nguyễn Tấn Thi</p>
-                                                                        </td>
-                                                                        {{!-- Participants --}}
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>103</p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex space-x-4">
-                                                                                <a href="#" class="text-blue-500 hover:text-blue-600">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-1"
-                                                                                    fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                                                </svg>
-                                                                                <p>Edit</p>
-                                                                                </a>
-                                                                                <a href="#" class="text-red-500 hover:text-red-600">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-1 ml-3"
-                                                                                    fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                                </svg>
-                                                                                <p>Delete</p>
-                                                                                </a>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
+                                                                            {{!-- email --}}
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <p>{{this.email}}</p>
+                                                                            </td>
+
+                                                                            {{!-- Phone --}}
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <p>{{this.phone}}</p>
+                                                                            </td>
+
+                                                                        {{!-- Speaker --}}
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <p>{{this.role}}</p>
+                                                                            </td>
+                                                                            {{!-- Participants --}}
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <p>{{this.birhday}}</p>
+                                                                            </td>
+                                                                            <td
+                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                                                                <div class="flex space-x-4">
+                                                                                    <a href="#" class="text-blue-500 hover:text-blue-600">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        class="w-5 h-5 mr-1"
+                                                                                        fill="none" viewBox="0 0 24 24"
+                                                                                        stroke="currentColor">
+                                                                                        <path stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-width="2"
+                                                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                                    </svg>
+                                                                                    <p>Edit</p>
+                                                                                    </a>
+                                                                                    <a href="#" class="text-red-500 hover:text-red-600">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        class="w-5 h-5 mr-1 ml-3"
+                                                                                        fill="none" viewBox="0 0 24 24"
+                                                                                        stroke="currentColor">
+                                                                                        <path stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            stroke-width="2"
+                                                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                                    </svg>
+                                                                                    <p>Delete</p>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    {{/each}}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -129,14 +121,12 @@
                                     </div>
 
                                     {{!-- Pagination --}}
-
-
                                     <nav aria-label="Page navigation example" class='flex justify-center mt-4'>
                                     <ul class="flex items-center -space-x-px h-10 text-base">
-                                        {{#range totalPages}}
-                                        <li>
-                                            <a href="#" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white {{#if (eq this currentPage)}}hover:text-blue-700 text-blue-600 border-blue-300 bg-blue-50{{/if}}">{{currentPage}}</a>
-                                        </li>
+                                       {{#range 1 totalPages}}
+                                            <li>
+                                                <a href="?page={{this}}" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 {{#if (eq this currentPage)}}hover:text-blue-700 text-blue-600 border-blue-300 bg-blue-50{{/if}}">{{this}}</a>
+                                            </li>
                                         {{/range}}
                                     </ul>
                                     </nav>

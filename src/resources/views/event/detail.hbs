@@ -1,57 +1,125 @@
-
-        <div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
+<div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
             <div class="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
-                <img class="w-full" alt="image of a girl posing" src="https://i.ibb.co/QMdWfzX/component-image-one.png" />
+                <img class="w-full" alt="image of a girl posing" src="{{event.backgroundImage}}" />
             </div>
             <div class="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
                 <div class="border-b border-gray-200 pb-6">
                     <p class="text-sm leading-none text-gray-600 -gray-300 "></p>
-                    <h1 class="text-3xl font-semibold lg:leading-6 leading-7 text-gray-800 -white mt-2">Workshop on Web Development</h1>
+                    <h1 class="text-3xl font-semibold lg:leading-6 leading-7 text-gray-800 -white mt-2">{{event.title}}</h1>
                 </div>
                 <div class="py-4 border-b border-gray-200 flex items-center justify-between">
                     <p class="text-base leading-4 text-gray-800 -gray-300">Speaker</p>
                     <div class="flex items-center justify-center">
-                        <p class="text-lg leading-none text-gray-600">Lê Nguyễn Tấn Thi</p>
+                        {{#each event.speakers}}
+                            <p class="text-lg leading-none text-gray-600"> {{this.full_name}}</p>
+                         {{/each}}
                         <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
                     </div>
                 </div>
                 <div class="py-4 border-b border-gray-200 flex items-center justify-between">
                     <p class="text-base leading-4 text-gray-800 -gray-300">Ticket price</p>
                     <div class="flex items-center justify-center">
-                        <p class="text-lg leading-none text-gray-600 -gray-300 mr-3">200.000 VNĐ</p>
+                        <p class="text-lg leading-none text-gray-600 -gray-300 mr-3">{{event.expenses}} VNĐ</p>
                         
                         <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
                         <img class="hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2" alt="next">  
                     </div>
                 </div>
 
-                {{!-- Button buy ticket --}}
-                <div class="flex justify-center">
-                    <button type="button" class="text-white text-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg mt-5 px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
-                    </svg>
-                    <span class="ml-2">Register Now</span>
-                </button>
+                
+
+                {{#if isAdmin}}
+                    
+                {{else}} 
+                    {{#if isRegistered}}
+                        <div class="flex justify-center">
+                            <button disabled type="button" class="text-white text-lg  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg mt-5 px-5 py-2.5 text-center inline-flex items-center me-2 cursor-not-allowed">
+                                <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+                                </svg>
+                                <span class="ml-2">Registered</span>
+                            </button>
+                        </div>
+                    {{else}}
+                        <!-- Button buy ticket -->
+                        <div class="flex justify-center">
+                            <button id="registerButton" type="button" class="text-white text-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg mt-5 px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <svg class="w-3.5 h-3.5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+                                </svg>
+                                <span class="ml-2">Register Now</span>
+                            </button>
+                        </div>
+
+                    {{/if}}
+                {{/if}}
+
+
+
+
+                
+
+                {{!-- Confirm --}}
+                <div id="confirmationModal" class="fixed h-screen z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <!-- Background overlay -->
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <!-- Centered modal content -->
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <!-- Modal panel -->
+                        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <!-- Icon -->
+                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.416-1.812 1.398-3.038l-6.928-10A1.5 1.5 0 0 0 12.001 2v10l-5.928 8.962C7.57 18.188 8.445 20 9.985 20zM12 9c0-1.105-.895-2-2-2s-2 .895-2 2s.895 2 2 2s2-.895 2-2z" />
+                                        </svg>
+                                    </div>
+                                    <!-- Text content -->
+                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                            Confirm Registration
+                                        </h3>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">
+                                                Are you sure you want to register for this event?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Action buttons -->
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" id="confirmButton" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Confirm
+                                </button>
+                                <button type="button" id="cancelButton" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:mt-0 sm:w-auto sm:text-sm">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
-                <div>
-                    <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 -gray-300 mt-7">It is a long established fact that a reader will be distracted by thereadable content of a page when looking at its layout. The point of usingLorem Ipsum is that it has a more-or-less normal distribution of letters.</p>
-                    <p class="text-base leading-4 mt-7 text-gray-600 -gray-300">Date start:</p>
-                    <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Date end:</p>
-                    <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Location:</p>
-                </div>
                 <div>
                     <div class="border-t border-b py-4 mt-7 border-gray-200">
                         <div data-menu class="flex justify-between items-center cursor-pointer">
-                            <p class="text-base leading-4 text-gray-800 -gray-300">Shipping and returns</p>
+                            <p class="text-base leading-4 text-gray-800 -gray-300">More information</p>
                             <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
                                 <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
                                 <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
                             </button>
                         </div>
-                        <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are nonrefundable</div>
+                        <div class="hidden text-base leading-normal pl-12 text-gray-600 -gray-300" id="sect">
+                            <div>
+                                <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 -gray-300 mt-7">{{event.description}}</p>
+                                <p class="text-base leading-4 mt-7 text-gray-600 -gray-300">Date start: {{event.dateStart}}</p>
+                                <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Date end: {{event.dateEnd}}</p>
+                                <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Location: {{event.location}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -64,6 +132,26 @@
                             </button>
                         </div>
                         <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">If you have any questions on how to return your item to us, contact us.</div>
+                    </div>
+                </div>
+
+                {{!-- Attendees --}}
+                <div>
+                    <div class="border-b py-4 border-gray-200">
+                        <div data-menu class="flex justify-between items-center cursor-pointer">
+                            <p class="text-base leading-4 text-gray-800 -gray-300">Attendees</p>
+                            <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
+                                <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
+                                <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
+                            </button>
+                        </div>
+                        <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">
+                            <div class="h-32 overflow-y-scroll">
+                                {{#each event.attendees}} 
+                                    <p class="border-b-2 py-2">{{this.full_name}} | {{this.phone}} | {{this.email}}</p>
+                                {{/each}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -82,5 +170,35 @@ for (let i = 0; i < elements.length; i++) {
         andicators[0].classList.toggle("rotate-180");
     });
 }
+
+    // JavaScript
+    const registerButton = document.getElementById('registerButton');
+    const confirmButton = document.getElementById('confirmButton');
+    const cancelButton = document.getElementById('cancelButton');
+    const confirmationModal = document.getElementById('confirmationModal');
+
+    registerButton.addEventListener('click', function () {
+        confirmationModal.classList.remove('hidden');
+    });
+
+    cancelButton.addEventListener('click', function () {
+        confirmationModal.classList.add('hidden');
+    });
+
+    confirmButton.addEventListener('click', function () {
+        // Redirect to payment page or perform other actions
+        // Lấy URL hiện tại
+        const currentUrl = window.location.href;
+
+        // Tách URL thành các phần bằng dấu gạch chéo ("/")
+        const parts = currentUrl.split('/');
+
+        // Lấy id từ phần tử cuối cùng của mảng
+        const eventId = parts[parts.length - 1];
+
+        //Chuyển hướng
+        window.location.href = "/event/payment/"+eventId;
+        console.log('Confirmed. Redirecting...');
+    });
 
 </script>

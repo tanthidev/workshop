@@ -1,6 +1,9 @@
 // const customers = require('../models/customer')
+const { format } = require('date-fns');
+
 const Event = require('../models/event');
 const upload = require('../../middlewares/upload');
+const formatNumber = require('../../util/formatNumber')
 class EventController {
     // Hàm xử lý tạo sự kiện
     async handleCreateEvent(req, res) {
@@ -55,7 +58,90 @@ class EventController {
     // Chi tiet su kien
 
     detail(req, res) {
-        res.render('event/detail')
+        const eventId = req.params.id;
+
+        Event.findOne({_id: eventId})
+        .populate('speakers attendees')
+        .lean() // Use the lean() method to return plain JavaScript objects
+        .then(event => {
+            event.dateStart = format(new Date(event.dateStart), 'HH:mm-dd/MM/yyyy');
+            event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
+
+            // Check if the current user is already registered for the event
+            const isRegistered = event.attendees.some(att => att == req.user.user._id);
+
+            // Check user is admin
+            let isAdmin = false;
+            if(req.user.user.role === 'admin') {
+                isAdmin = true;
+            }
+
+
+            res.render("event/detail", {
+                user: req.user.user,
+                isRegistered,
+                isAdmin,
+                event: event,
+            })
+        })
+        .catch(error => {
+            req.flash('error', `${error}`);
+            res.redirect('/')
+        });
+    }
+
+    payment(req, res) {
+        const eventId = req.params.id;
+
+        Event.findOne({_id: eventId})
+        .populate('speakers')
+        .lean() // Use the lean() method to return plain JavaScript objects
+        .then(event => {
+            event.dateStart = format(new Date(event.dateStart), 'HH:mm-dd/MM/yyyy');
+            event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
+            event.expenses = formatNumber(event.expenses)
+            res.render("event/payment", {
+                user: req.user.user,
+                event: event
+            })
+        })
+        .catch(error => {
+            res.render("/", {
+                user: req.user.user,
+            })
+        });
+    }
+
+    async handleRegister(req, res){
+        try {
+            const { userId, eventId } = req.body;
+             // Fetch the event details including the ticket price
+            const event = await Event.findById(eventId).select('expenses');
+
+            const ticketPrice = event.expenses;
+            // Update the event document to add the attendee
+            const result = await Event.updateOne(
+                { _id: eventId }, // Query to find the event by its ID
+                { 
+                    $push: { attendees: userId }, // Add userId to the attendees array
+                    $inc: { revenue: ticketPrice } // Increment revenue by the ticketPrice
+
+                } 
+            );
+    
+            if (result.nModified === 0) {
+                // If no document was modified, it means the event was not found
+                req.flash('error', "The event was not found");
+                return res.redirect('/event/detail/'+eventId);
+            }
+    
+            // If no document was modified, it means the event was not found
+            req.flash('success', "Register successfull");
+            return res.redirect('/event/detail/'+eventId);
+        } catch (error) {
+            req.flash('error', "Fail register");
+            return res.redirect('/event/detail/'+eventId);
+        }
     }
 
 
