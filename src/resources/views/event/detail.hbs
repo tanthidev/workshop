@@ -135,25 +135,29 @@
                     </div>
                 </div>
 
-                {{!-- Attendees --}}
-                <div>
-                    <div class="border-b py-4 border-gray-200">
-                        <div data-menu class="flex justify-between items-center cursor-pointer">
-                            <p class="text-base leading-4 text-gray-800 -gray-300">Attendees</p>
-                            <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
-                                <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
-                                <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
-                            </button>
-                        </div>
-                        <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">
-                            <div class="h-32 overflow-y-scroll">
-                                {{#each event.attendees}} 
-                                    <p class="border-b-2 py-2">{{this.full_name}} | {{this.phone}} | {{this.email}}</p>
-                                {{/each}}
+                
+
+                {{#if isAdmin}}
+                    {{!-- Attendees --}}
+                    <div>
+                        <div class="border-b py-4 border-gray-200">
+                            <div data-menu class="flex justify-between items-center cursor-pointer">
+                                <p class="text-base leading-4 text-gray-800 -gray-300">Attendees</p>
+                                <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
+                                    <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
+                                    <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
+                                </button>
+                            </div>
+                            <div class="hidden pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 -gray-300" id="sect">
+                                <div class="h-32 overflow-y-scroll">
+                                    {{#each event.attendees}} 
+                                        <p class="border-b-2 py-2">{{this.full_name}} | {{this.phone}} | {{this.email}}</p>
+                                    {{/each}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {{/if}}
             </div>
         </div>
         

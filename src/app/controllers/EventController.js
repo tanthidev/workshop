@@ -68,7 +68,7 @@ class EventController {
             event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
 
             // Check if the current user is already registered for the event
-            const isRegistered = event.attendees.some(att => att == req.user.user._id);
+            const isRegistered = event.attendees.some(att => att._id == req.user.user._id);
 
             // Check user is admin
             let isAdmin = false;
