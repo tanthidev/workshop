@@ -12,7 +12,7 @@ class UserController {
         )
     }
 
-    //search
+    //Handle
     handleChangeProfile(req, res) {
         const { _id, full_name, email, phone, gender, dob } = req.body;
             // Chuyển đổi thành ObjectID
@@ -63,8 +63,18 @@ class UserController {
 
 
             });
-        }
     }
+
+    //List user (pagination)
+    async listUser(req, res){
+        
+   }
+
+
+
+}
+
+
 
 
 module.exports = new UserController();

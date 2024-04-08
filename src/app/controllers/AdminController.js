@@ -3,7 +3,10 @@ const users = require('../models/user')
 class AdminController {
     //GET /news
     index(req, res) {
-        res.render("admin/dashboard", {layout: 'admin'})
+        res.render("admin/dashboard", {
+            layout: 'admin',
+            user: req.user.user
+        })
     }
 
     async createEvent(req, res){
@@ -20,8 +23,43 @@ class AdminController {
         )
     }
 
-    listUsers(req, res){
-        res.render("admin/users", {layout: 'admin'})
+    async listUsers(req, res){
+        const currentPage = parseInt(req.query.page) || 1; // Current page number, default to 1
+        const limit = parseInt(req.query.limit) || 1; // Number of items per page, default to 10
+
+        try{ 
+            // Count total number of documents
+            const totalDocuments = await users.countDocuments();
+
+            // Calculate total pages
+            const totalPages = Math.ceil(totalDocuments / limit);
+
+            // Skip records based on pagination
+            const skip = (currentPage - 1) * limit;
+
+            // Query database with pagination
+            const listUsers = await users.find()
+            .skip(skip)
+            .limit(limit)
+            .select('-password');
+
+
+            res.render("admin/users", {
+                layout: 'admin',
+                user: req.user.user,
+                currentPage,
+                totalPages
+            })
+        } catch(err){   
+            console.log(err)
+
+            res.render("admin/users", {
+                layout: 'admin',
+                user: req.user.user
+            })
+        }
+
+
     }
 
     listEvents(req, res){
@@ -36,7 +74,11 @@ class AdminController {
             .lean() // Use the lean() method to return plain JavaScript objects
             .then(events => {
                 console.log(events);
-                res.render("admin/events", {layout: 'admin', 'events': events})
+                res.render("admin/events", {
+                    layout: 'admin', 
+                    'events': events,
+                    user: req.user.user
+                })
             })
             .catch(error => {
                 // Error occurred while finding documents

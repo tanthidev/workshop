@@ -34,7 +34,7 @@ const checkLogin = (req, res, next) => {
 
 const checkAdmin = (req, res, next) => {
     try {
-        if(req.user.user.is_admin){
+        if(req.user.user.role == 'admin'){
             next()
         } else{
             return res.status(403).send('Access Denied');

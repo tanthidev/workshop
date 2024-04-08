@@ -53,7 +53,7 @@ app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
 
 //Helper
 helper.registerHelper('eq', function(a, b) {
-  return a === b;
+  return a == b;
 });
 
 //countObjectsInArray(arr)
@@ -67,6 +67,15 @@ helper.registerHelper('formatDate', function(dateStringRaw) {
   const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const dateString = date.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: 'numeric' });
   return `${timeString} ${dateString}`;
+});
+
+// Register a Handlebars helper to generate an array of numbers from 1 to n
+helper.registerHelper('range', function(n, block) {
+  var result = '';
+  for (var i = 1; i <= n; i++) {
+    result += block.fn(i);
+  }
+  return result;
 });
 
 //config source static

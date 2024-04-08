@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 class AuthController {
     //GET /news
     login(req, res) {
-        res.render("auth/login")
+        res.render("auth/login", {
+        })
     }
     
     async handleLogin(req, res) {
@@ -37,7 +38,8 @@ class AuthController {
 
 
     signup(req, res) {
-        res.render("auth/signup")
+        res.render("auth/signup", {
+        })
     }
 
     //POST

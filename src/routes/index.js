@@ -3,15 +3,15 @@ const adminRouter = require('./admin');
 const authRouter = require('./auth');
 const userRouter = require('./user');
 const eventRouter = require('./event');
-const {checkLogin, logout} = require('../middlewares/authMiddleware')
+const {checkLogin, logout, checkAdmin} = require('../middlewares/authMiddleware')
 
 
 function route(app) {
-    app.use('/user', userRouter)
-    app.use('/auth', authRouter)
-    app.use('/admin', adminRouter)
-    app.use('/event', eventRouter)
-    app.get('/logout', logout);
+    app.use('/user',checkLogin, userRouter)
+    app.use('/auth',checkLogin, authRouter)
+    app.use('/admin',checkLogin, checkAdmin, adminRouter)
+    app.use('/event',checkLogin, eventRouter)
+    app.get('/logout',checkLogin, logout);
     app.use('/', homeRouter);
 }
 
