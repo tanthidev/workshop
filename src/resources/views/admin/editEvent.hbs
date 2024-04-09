@@ -1,25 +1,56 @@
-<div class="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
+<div class="flex justify-between container mx-auto">
+    <button id="back" onclick="backPage()" class="button flex bg-gray-400 hover:bg-gray-600 text-white font-bold py-4 px-4 rounded cursor-pointer">
+        <img width="40px" height="40px" src="https://cdn-icons-png.flaticon.com/512/93/93634.png" />
+    </button>
+    <button id="delete" onclick="confirmDelete()" class="button flex bg-red-700 hover:bg-red-500 text-white font-bold py-4 px-4 rounded cursor-pointer">
+        <img width="40px" height="40px" src="https://icon-library.com/images/trash-bin-icon-png/trash-bin-icon-png-0.jpg" />
+    </button>
+</div>
+{{!-- Form --}}
+<form action="/event/edit" method="POST" class="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
+    
             <div class="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
                 <img class="w-full" alt="image of a girl posing" src="{{event.backgroundImage}}" />
             </div>
             <div class="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6">
+            
+            <input name="_id" class="hidden" value="{{event._id}}"/>
+
+            {{!-- Title --}}
                 <div class="border-b border-gray-200 pb-6">
                     <p class="text-sm leading-none text-gray-600 -gray-300 "></p>
-                    <h1 class="text-3xl font-semibold lg:leading-6 leading-7 text-gray-800 -white mt-2">{{event.title}}</h1>
+                    <input
+                        name="title"
+                        value="{{event.title}}" 
+                        class="text-3xl w-full font-semibold lg:leading-6 leading-7 text-gray-800 -white mt-2"/>
+                    
                 </div>
                 <div class="py-4 border-b border-gray-200 flex items-center justify-between">
-                    <p class="text-base leading-4 text-gray-800 -gray-300">Speaker</p>
+                    <label for="speakers" class="text-base leading-4 text-gray-800 -gray-300">Speaker</label>
                     <div class="flex items-center justify-center">
-                        {{#each event.speakers}}
-                            <p class="text-lg leading-none text-gray-600"> {{this.full_name}}</p>
-                         {{/each}}
+                         <select class="text-lg leading-none text-gray-600" name="speaker" id="speaker">
+                            <option selected id="speakers" name="speakers" value="{{event.speakers.[0]._id}}">{{event.speakers.[0].full_name}}</option>
+                            
+                            {{#each speakers}}
+                                <option 
+                                    value="{{this._id}}"
+                                >
+                                {{this.full_name}}
+                                </option>
+                            {{/each}}
+                         </select>
                         <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
                     </div>
                 </div>
-                <div class="py-4 border-b border-gray-200 flex items-center justify-between">
-                    <p class="text-base leading-4 text-gray-800 -gray-300">Ticket price</p>
+                <div class="py-4 border-b border-gray-200 flex items-center justify-between cursor-pointer">
+                    <label for="expenses" class="text-base w-full leading-4 text-gray-800 -gray-300">Ticket price</label>
                     <div class="flex items-center justify-center">
-                        <p class="text-lg leading-none text-gray-600 -gray-300 mr-3">{{event.expenses}} VNĐ</p>
+                        <input 
+                            name="expenses"
+                            id="expenses"
+                            class="text-lg leading-none text-gray-600 -gray-300 mr-3 text-right"
+                            value="{{event.expenses}}"
+                        />
                         
                         <img class="" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2.svg" alt="next">
                         <img class="hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg2" alt="next">  
@@ -116,16 +147,70 @@
                         <div data-menu class="flex justify-between items-center cursor-pointer">
                             <p class="text-base leading-4 text-gray-800 -gray-300">More information</p>
                             <button class="cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded" role="button" aria-label="show or hide">
-                                <img class="transform " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
+                                <img class="transform rotate-180" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4.svg" alt="dropdown">
                                 <img class="transform hidden " src="https://tuk-cdn.s3.amazonaws.com/can-uploader/productDetail3-svg4" alt="dropdown">
                             </button>
                         </div>
-                        <div class="hidden text-base leading-normal pl-12 text-gray-600 -gray-300" id="sect">
+                        <div class="text-base leading-normal pl-12 text-gray-600 -gray-300" id="sect">
                             <div>
-                                <p class="xl:pr-48 text-base lg:leading-tight leading-normal text-gray-600 -gray-300 mt-7">{{event.description}}</p>
-                                <p class="text-base leading-4 mt-7 text-gray-600 -gray-300">Date start: {{event.dateStart}}</p>
-                                <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Date end: {{event.dateEnd}}</p>
-                                <p class="text-base leading-4 mt-4 text-gray-600 -gray-300">Location: {{event.location}}</p>
+                                {{!-- description --}}
+                                <label for="description" class="text-base leading-4 mt-7 text-gray-600 -gray-300">
+                                    Description: 
+                                    <textarea type="text"
+                                        name="description"
+                                        id="description"
+                                        class="w-full"
+                                    >
+                                    {{event.description}}
+                                    </textarea>
+                                </label>
+                                <br/>
+                                <br/>
+
+                                {{!-- Date start --}}
+                                <label for="dateStart" class="text-base leading-4 mt-7 text-gray-600 -gray-300">
+                                    Date start: 
+                                    <input type="datetime-local"
+                                        name="dateStart"
+                                        id="dateStart"
+                                        value="{{event.dateStart}}"
+                                    >
+                                </label>
+                                <br/>
+                                <br/>
+
+                                {{!-- Date end --}}
+                                <label for="dateEnd" class="text-base leading-4 mt-7 text-gray-600 -gray-300">
+                                    Date start: 
+                                    <input type="datetime-local"
+                                        name="dateEnd"
+                                        id="dateEnd"
+                                        value="{{event.dateEnd}}"
+                                    >
+                                </label>
+                                <br/>
+                                <br/>
+                                {{!-- Slot --}}
+                                <label for="numberOfTickets" class="text-base leading-4 mt-7 text-gray-600 -gray-300">
+                                    Number Of Tickets: 
+                                    <input type="text"
+                                        name="numberOfTickets"
+                                        id="numberOfTickets"
+                                        value="{{event.numberOfTickets}}"
+                                    >
+                                </label>
+                                <br/>
+                                <br/>
+                                {{!-- Location --}}
+                                <label for="location" class="text-base leading-4 mt-7 text-gray-600 -gray-300">
+                                    Location: 
+                                    <input type="text"
+                                        name="location"
+                                        id="location"
+                                        value="{{event.location}}"
+                                    >
+                                </label>
+                                <br/>
                             </div>
                         </div>
                     </div>
@@ -166,9 +251,15 @@
                         </div>
                     </div>
                 {{/if}}
+
+                <div class="w-full flex justify-end mt-5">
+                    <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-xl px-7 py-3 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        Save
+                    </button>
+                </div>
             </div>
-        </div>
-        
+
+</form>
         
 <script>
     let elements = document.querySelectorAll("[data-menu]");
@@ -213,4 +304,29 @@ for (let i = 0; i < elements.length; i++) {
         console.log('Confirmed. Redirecting...');
     });
 
+    const buttonBack = document.getElementById('back');
+    const buttonDelete = document.getElementById('delete');
+
+    function backPage(){
+        window.history.back();
+    }
+
+    function confirmDelete(){
+          const confirmation = window.confirm("Are you sure you want to delete?");
+            // Get the current URL
+            const url = window.location.href;
+
+            // Split the URL by "/"
+            const parts = url.split("/");
+
+            // Get the last part which is the ID
+            const id = parts[parts.length - 1];
+
+
+            // Check if the user confirmed
+            if (confirmation) {
+                // Redirect the user to the desired page
+                window.location.href = "/event/delete/"+id; // Replace with your desired URL
+            }
+    }
 </script>

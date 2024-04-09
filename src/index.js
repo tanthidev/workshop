@@ -78,6 +78,10 @@ helper.registerHelper('range', function(start, end, options) {
   return result;
 });
 
+helper.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
 //config source static
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'middlewares', 'uploads')));

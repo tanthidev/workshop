@@ -17,7 +17,6 @@
                                 class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-blue-900 rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200 ">
                                 Change picture
                                 <input
-                                    name="avt"
                                     id="avt"
                                     type="file"
                                     class="hidden"
@@ -45,6 +44,7 @@
                                     class="block mb-2 text-sm font-medium text-indigo-900 ">Your
                                     Full name</label>
                                 <input type="text" id="full_name"
+                                    name="full_name"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                                     placeholder="Your full name" 
                                     value="{{user.full_name}}" required>
@@ -57,6 +57,7 @@
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-indigo-900 ">Your email</label>
                             <input type="email" id="email"
+                                name="email"
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                                 placeholder="your.email@mail.com" 
                                 value="{{user.email}}" required>
@@ -67,35 +68,53 @@
                             <label for="phone"
                                 class="block mb-2 text-sm font-medium text-indigo-900 ">Your
                                 Phone</label>
-                            <input type="phone" id="phone"
+                            <input type="phone" id="phone" 
+                                name="phone"
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                                 placeholder="Your phone number" 
                                 value="{{user.phone}}" required>
                     </div>
 
-                    {{!-- Gender --}}
-                    <div class="mb-5">
-                            <label for="gender"
-                                class="block mb-2 text-sm font-medium text-indigo-900 ">Gender</label>
-                            <select id="gender"
-                                class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 ">
-                                <option value=""></option>
-                                <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
-                                <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
-                                <option value="other" {{#if (eq user.gender "other")}}selected{{/if}}>Other</option>
-                            </select>
+                      {{!-- Role --}}
+                    <div class="mb-2 sm:mb-6">
+                            <label for="role"
+                                class="block mb-2 text-sm font-medium text-indigo-900 ">Role</label>
+                            <input id="role"
+                                name="role"
+                                class="bg-indigo-50 border cursor-not-allowed border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                                type="text"
+                                value="{{user.role}}"
+                                readonly
+                                >
                     </div>
+                    {{!-- Gender --}}
+                        <div class="mb-3">
+                                <label for="gender"
+                                    class="block mb-2 text-sm font-medium text-indigo-900 ">Gender</label>
+                                <select id="gender"
+                                    name="gender"
+                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 ">
+                                    <option value=""></option>
+                                    <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
+                                    <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
+                                    <option value="other" {{#if (eq user.gender "other")}}selected{{/if}}>Other</option>
+                                </select>
+                        </div>
 
                     {{!-- Birthday --}}
                     <div class="mb-2 sm:mb-6">
                             <label for="birthday"
                                 class="block mb-2 text-sm font-medium text-indigo-900 ">Birthday</label>
                             <input id="birthday"
+                                name="dob"
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                                 type="date"
                                 value="{{user.dob}}"
                                 >
                     </div>
+                   
+
+                    
 
                     {{!-- submit --}}
                     <div class="flex justify-end">

@@ -9,15 +9,17 @@ class HomeController {
         Event.find({ dateStart: { $gte: currentDate } })
         .sort({ dateStart: 1 }) // Sắp xếp theo thời gian bắt đầu tăng dần
         .populate('speakers')
-        .limit(4)
         .lean() // Use the lean() method to return plain JavaScript objects
         .then(events => {
             events.forEach(event => {
                 event.dateStart = format(new Date(event.dateStart), 'HH:mm-dd/MM/yyyy');
                 event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
             });
+            console.log(events.slice(4));
             res.render("home", {
                 events,
+                firstFourEvents: events.slice(0, 4),
+                remainingEvents: events.slice(4),
                 user: req.user.user
             })
         })

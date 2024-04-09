@@ -38,12 +38,6 @@
                                                                         <th
                                                                             class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                                                             <div class="flex cursor-pointer">
-                                                                                <span class="mr-2">BIRTHDAY</span>
-                                                                            </div>
-                                                                        </th>
-                                                                        <th
-                                                                            class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                                                            <div class="flex cursor-pointer">
                                                                                 <span class="mr-2">ACTION</span>
                                                                             </div>
                                                                         </th>
@@ -75,37 +69,35 @@
                                                                                 class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
                                                                                 <p>{{this.role}}</p>
                                                                             </td>
-                                                                            {{!-- Participants --}}
-                                                                            <td
-                                                                                class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                                <p>{{this.birhday}}</p>
-                                                                            </td>
                                                                             <td
                                                                                 class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
                                                                                 <div class="flex space-x-4">
-                                                                                    <a href="#" class="text-blue-500 hover:text-blue-600">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                        class="w-5 h-5 mr-1"
-                                                                                        fill="none" viewBox="0 0 24 24"
-                                                                                        stroke="currentColor">
-                                                                                        <path stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            stroke-width="2"
-                                                                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                                                    </svg>
-                                                                                    <p>Edit</p>
-                                                                                    </a>
+                                                                                    {{!-- Edit --}}
+                                                                                    <p onclick="edit('{{json this}}')" class="text-blue-500 cursor-pointer hover:text-blue-600">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            class="w-5 h-5 mr-1"
+                                                                                            fill="none" viewBox="0 0 24 24"
+                                                                                            stroke="currentColor">
+                                                                                            <path stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                stroke-width="2"
+                                                                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                                        </svg>
+                                                                                        Edit
+                                                                                    </p>
+
+                                                                                    {{!-- Delete --}}
                                                                                     <a href="#" class="text-red-500 hover:text-red-600">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                        class="w-5 h-5 mr-1 ml-3"
-                                                                                        fill="none" viewBox="0 0 24 24"
-                                                                                        stroke="currentColor">
-                                                                                        <path stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            stroke-width="2"
-                                                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                                                    </svg>
-                                                                                    <p>Delete</p>
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            class="w-5 h-5 mr-1 ml-3"
+                                                                                            fill="none" viewBox="0 0 24 24"
+                                                                                            stroke="currentColor">
+                                                                                            <path stroke-linecap="round"
+                                                                                                stroke-linejoin="round"
+                                                                                                stroke-width="2"
+                                                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                                        </svg>
+                                                                                        <p>Delete</p>
                                                                                     </a>
                                                                                 </div>
                                                                             </td>
@@ -133,3 +125,153 @@
 
                                 </div>
                             </div>
+
+<div id="edit" class="absolute hidden h-screen  w-screen bg-gray-900 bg-opacity-80 top-0 left-0 z-20">
+    {{!-- Form --}}
+    <form id="formEdit" action="/user/profile" method="POST" class="grid w-1/3 ml-auto bg-white h-screen ">
+                    <div class="relative">
+                        <div onclick="hiddenEdit()" class="absolute left-5 top-5 cursor-pointer">
+                            <img src="https://icon-library.com/images/x-icon-vector/x-icon-vector-27.jpg" alt="" width="35" height="35">
+                        </div>
+                    </div>
+
+                    <div class="p-12">
+                        {{!-- _id --}}
+                        <input 
+                            id="_id"
+                            type="text"
+                            name="_id"
+                            value=""
+                            class="hidden"
+                            readonly
+                        >
+                        {{!-- Fullname --}}
+                        <div class="items-center mt-8 mb-3 text-[#202142]">
+                                <div class="w-full">
+                                    <label for="full_name"
+                                        class="block mb-2 text-sm font-medium text-indigo-900 ">Full name</label>
+                                    <input type="text" id="full_name"
+                                        name="full_name"
+                                        class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                                        placeholder="Full name" 
+                                        value="" required>
+                                </div>
+
+                        </div>
+
+                        {{!-- Email --}}
+                        <div class="mb-3">
+                                <label for="email"
+                                    class="block mb-2 text-sm font-medium text-indigo-900 ">Email</label>
+                                <input type="email" id="email"
+                                    name="email"
+                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                                    placeholder="your.email@mail.com" 
+                                    value="" required>
+                        </div>
+
+                        {{!-- Phone --}}
+                        <div class="mb-3">
+                                <label for="phone"
+                                    class="block mb-2 text-sm font-medium text-indigo-900 ">Phone</label>
+                                <input type="phone" id="phone"
+                                    name="phone"
+                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
+                                    placeholder="Your phone number" 
+                                    value="" required>
+                        </div>
+                        
+                        {{!-- Role --}}
+                        <div class="mb-3">
+                            <label for="role"
+                                class="block mb-2 text-sm font-medium text-indigo-900 ">Role</label>
+                            <select id="role" name="role" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5">
+                                <option 
+                                    value="participant"
+                                    {{#if (eq user.role "participant")}}selected{{/if}}
+                                >Participants</option>
+                                
+                                <option 
+                                    value="speaker"
+                                    {{#if (eq user.role "speaker")}}selected{{/if}}
+                                >Speaker</option>
+
+                                <option 
+                                    value="admin"
+                                    {{#if (eq user.role "admin")}}selected{{/if}}
+                                >Admin</option>
+                            </select>
+                        </div>
+
+
+                        {{!-- Gender --}}
+                        <div class="mb-3">
+                                <label for="gender"
+                                    class="block mb-2 text-sm font-medium text-indigo-900 ">Gender</label>
+                                <select id="gender"
+                                    name="gender"
+                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 ">
+                                    <option value=""></option>
+                                    <option value="male" {{#if (eq user.gender "male")}}selected{{/if}}>Male</option>
+                                    <option value="female" {{#if (eq user.gender "female")}}selected{{/if}}>Female</option>
+                                    <option value="other" {{#if (eq user.gender "other")}}selected{{/if}}>Other</option>
+                                </select>
+                        </div>
+
+
+                        {{!-- submit --}}
+                        <div class="flex justify-end">
+                                <button type="submit"
+                                    class="text-white bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center ">Save</button>
+                        </div>
+                    </div>
+
+    </form>
+</div>
+
+
+
+<script>
+    
+    const editElement = document.getElementById('edit');
+    const formEdit = document.getElementById('formEdit');
+    function edit(user){
+        const parsedData = JSON.parse(user);
+        
+        const _id = document.getElementById('_id');
+        const full_name = document.getElementById('full_name');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const role = document.getElementById('role');
+        const gender = document.getElementById('gender');
+        const birhday = document.getElementById('birhday');
+
+        _id.value = parsedData._id
+        full_name.value = parsedData.full_name
+        email.value = parsedData.email
+        phone.value = parsedData.phone
+        role.value = parsedData.role
+        gender.value = parsedData.gender
+
+
+
+        showEdit()
+    }
+
+    function showEdit(){
+        editElement.classList.remove('hidden')
+    }
+
+    function hiddenEdit(){
+        editElement.classList.add('hidden')
+    }
+
+    // Thêm sự kiện "click" cho phần tử 1
+        editElement.addEventListener('click', function(event) {
+            // Kiểm tra xem phần tử mà người dùng nhấp vào có phải là phần tử 1 hay không
+            // Nếu không phải phần tử 2, ẩn đi phần tử 1
+            if (event.target !== formEdit && !formEdit.contains(event.target)) {
+                hiddenEdit()
+            }
+        });
+</script>

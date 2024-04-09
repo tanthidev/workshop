@@ -1,6 +1,7 @@
 const Event = require('../models/event')
 const User = require('../models/user')
 const formatNumber = require('../../util/formatNumber')
+const { format } = require('date-fns');
 class AdminController {
     // Dashboard
     index(req, res) {
@@ -137,6 +138,100 @@ class AdminController {
             });
         // res.render("admin/events", {layout: 'admin'})
     }
+
+    editEvent(req, res){
+        const eventId = req.params.id;
+        let speakers; // Biến để lưu danh sách diễn giả
+        // Truy vấn tất cả các diễn giả đang có trong hệ thống
+        User.find({ role: 'speaker' }).lean()
+        .then(listspeakers => {
+            // Đây là danh sách các diễn giả đang có trong hệ thống
+            speakers = listspeakers
+            // Truy vấn sự kiện với thông tin đã populate cho speakers và attendees
+            return Event.findOne({ _id: eventId }).populate('speakers attendees').lean();
+        })
+        .then(event => {
+            // Xử lý dữ liệu event và render template
+            const startDateTime = new Date(event.dateStart);
+            event.dateStart = startDateTime.toISOString().slice(0, 16);
+            const endDateTime = new Date(event.dateEnd);
+            event.dateEnd = endDateTime.toISOString().slice(0, 16);
+            const isSoldOut = event.attendees.length >= event.numberOfTickets;
+
+            // Check if the current user is already registered for the event
+            const isRegistered = event.attendees.some(att => att._id == req.user.user._id);
+            // Check user is admin
+            let isAdmin = false;
+            if (req.user.user.role === 'admin') {
+                isAdmin = true;
+            }
+             // Filter out speakers who are already assigned to the event
+        speakers = speakers.filter(speaker => !event.speakers.some(evSpeaker => evSpeaker._id.toString() === speaker._id.toString()));
+            res.render("admin/editEvent", {
+                user: req.user.user,
+                isRegistered,
+                isAdmin,
+                isSoldOut,
+                event: event,
+                speakers: speakers // Pass the speakers array to the view
+            });
+        })
+        .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error(error);
+            res.render("error", { error: "An error occurred" });
+        });
+    }
+
+    deleteEvent(req, res){
+
+
+        // Get the last part which is the ID
+        const id = req.params.id;;
+
+
+
+        Event.findOneAndDelete({ _id: id })
+        .then(deletedEvent => {
+            if (!deletedEvent) {
+                req.flash('error', 'Delete fail!')
+                return res.redirect(req.headers.referer || '/admin');
+            }
+            // Event deleted successfully
+            req.flash('success', 'Delete success')
+            return res.redirect('/admin/events');
+        })
+        .catch(error => {
+            // Error occurred while deleting the event
+            req.flash('error', 'Delete fail!')
+            return res.redirect(req.headers.referer || '/admin/events');
+        });
+    }
+
+    handleEditEvent(req, res){
+        const {_id} = req.body
+        const newData = req.body
+        newData.speakers = [req.body.speaker];
+        Event.updateOne({ _id}, {$set: newData})
+        .then(result => {
+            console.log(newData);
+            if (result.acknowledged) { 
+                req.flash('success', 'Update success!');
+            } else {
+                // Set fail flash 
+                req.flash('error', 'No document found or not modified!');
+            }
+            return res.redirect(req.headers.referer || '/');
+        })
+        .catch(error => {
+            // Set fail flash message
+            console.log(error);
+            req.flash('error', 'Update fail!');
+            return res.redirect(req.headers.referer || '/');
+        });
+    }
+
+
 }
 
 

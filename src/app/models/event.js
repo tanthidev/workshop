@@ -10,6 +10,7 @@ const eventSchema = new Schema({
     speakers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     attendees: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
     revenue: {type:Number , default: 0},
+    numberOfTickets: {type: Number, default: 0},
     expenses: Number,
     rating: {
         type: [{

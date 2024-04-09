@@ -17,7 +17,7 @@ class EventController {
             }
 
             // Lấy thông tin từ request body
-            const { title, description, dateStart, dateEnd, location, speakers, expenses } = req.body;
+            const { title, description, numberOfTickets, dateStart, dateEnd, location, speakers, expenses } = req.body;
             // Kiểm tra xem có file ảnh nền được tải lên hay không
             console.log(req.file);
             if (!req.file) {
@@ -35,6 +35,7 @@ class EventController {
                 description,
                 dateStart,
                 dateEnd,
+                numberOfTickets,
                 location,
                 speakers,
                 expenses,
@@ -66,6 +67,7 @@ class EventController {
         .then(event => {
             event.dateStart = format(new Date(event.dateStart), 'HH:mm-dd/MM/yyyy');
             event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
+            const isSoldOut = event.attendees.length >= event.numberOfTickets
 
             // Check if the current user is already registered for the event
             const isRegistered = event.attendees.some(att => att._id == req.user.user._id);
@@ -81,6 +83,7 @@ class EventController {
                 user: req.user.user,
                 isRegistered,
                 isAdmin,
+                isSoldOut,
                 event: event,
             })
         })
@@ -116,9 +119,9 @@ class EventController {
         try {
             const { userId, eventId } = req.body;
              // Fetch the event details including the ticket price
-            const event = await Event.findById(eventId).select('expenses');
-
-            const ticketPrice = event.expenses;
+            const event = await Event.findById(eventId).select('expenses numberOfTickets attendees');
+            if(event.attendees.length < event.numberOfTickets){
+                const ticketPrice = event.expenses;
             // Update the event document to add the attendee
             const result = await Event.updateOne(
                 { _id: eventId }, // Query to find the event by its ID
@@ -135,10 +138,18 @@ class EventController {
                 return res.redirect('/event/detail/'+eventId);
             }
     
-            // If no document was modified, it means the event was not found
+            // Success
             req.flash('success', "Register successfull");
             return res.redirect('/event/detail/'+eventId);
+            } else {
+                // Full
+                req.flash('error', "Tickets sold out");
+                return res.redirect('/event/detail/'+eventId);
+            }
+
+            
         } catch (error) {
+            const { eventId } = req.body;
             req.flash('error', "Fail register");
             return res.redirect('/event/detail/'+eventId);
         }
