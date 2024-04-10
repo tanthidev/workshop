@@ -71,6 +71,7 @@ class EventController {
 
             // Check if the current user is already registered for the event
             const isRegistered = event.attendees.some(att => att._id == req.user.user._id);
+            const isSpeaker = event.speakers.some(speaker => speaker._id == req.user.user._id)
 
             // Check user is admin
             let isAdmin = false;
@@ -83,6 +84,7 @@ class EventController {
                 user: req.user.user,
                 isRegistered,
                 isAdmin,
+                isSpeaker,
                 isSoldOut,
                 event: event,
             })

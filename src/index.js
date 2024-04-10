@@ -7,7 +7,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const db = require("./config/db");
 const methodOverride = require('method-override');
-
+const socketIo = require('socket.io');
+const http = require('http');
 //For notifice
 const flash = require('express-flash');
 
@@ -15,6 +16,7 @@ const flash = require('express-flash');
 const route = require('./routes');
  
 const helper = require('handlebars');
+
 
 
 //Connect database
@@ -50,6 +52,29 @@ app.use(express.json());
 //Template Engine
 app.engine('hbs', handlebars.engine({ extname: 'hbs' }));
 
+
+//Socket io
+
+// Khởi tạo server
+const server = http.createServer(app);
+const io = socketIo(server);
+
+// Define Socket.IO event handlers
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Handle 'sendMessage' event
+  socket.on('sendMessage', (message) => {
+      console.log('Message received:', message);
+      // Broadcast the message to all connected clients
+      io.emit('message', message);
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+      console.log('User disconnected');
+  });
+});
 
 //Helper
 helper.registerHelper('eq', function(a, b) {
@@ -93,6 +118,6 @@ app.set('views', path.join(__dirname, 'resources', 'views'));
 //Routes
 route(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
