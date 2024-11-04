@@ -8,7 +8,7 @@
   },
   "scripts": {
     "beautiful": "prettier --write --single-quote --trailing-comma all --tab-width 4 'src/**/*.{js,json,scss}'",
-    "start": "node src/index.js",
+    "start": "nodemon --inspect src/index.js",
     "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
     "build:css": "npx tailwindcss-cli -i src/resources/tailwindcss/tailwind.css -o src/public/css/tailwind.css",
     "test": "echo \"Error: no test specified\" && exit 1"
