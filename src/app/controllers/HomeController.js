@@ -6,7 +6,7 @@ class HomeController {
         // Lấy thời gian hiện tại
         const currentDate = new Date();
 
-        Event.find({ dateStart: { $gte: currentDate } })
+        Event.find({  })
         .sort({ dateStart: 1 }) // Sắp xếp theo thời gian bắt đầu tăng dần
         .populate('speakers')
         .lean() // Use the lean() method to return plain JavaScript objects
@@ -15,7 +15,6 @@ class HomeController {
                 event.dateStart = format(new Date(event.dateStart), 'HH:mm-dd/MM/yyyy');
                 event.dateEnd = format(new Date(event.dateEnd), 'HH:mm-dd/MM/yyyy');
             });
-            console.log(events.slice(4));
             res.render("home", {
                 events,
                 firstFourEvents: events.slice(0, 4),
